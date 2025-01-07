@@ -4,18 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Dto.anObject;
+
 @Service
 public class kafkaProducer {
 	
-public final KafkaTemplate<String, String> template;
+public final KafkaTemplate<String, Object> template;
 
-public kafkaProducer(KafkaTemplate<String, String> template) {
+public kafkaProducer(KafkaTemplate<String, Object> template) {
 	
 	this.template = template;
 }
 public void sendMessage(String message) {
     template.send("Topic", message);
     
+}
+public void sendMessageasobject(anObject customer) {
+	template.send("Topic",customer);
+	
 }
     
     //or 
