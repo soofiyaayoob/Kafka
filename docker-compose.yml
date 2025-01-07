@@ -1,0 +1,24 @@
+services:
+  kafka:
+    image: apache/kafka:latest  # Official Apache Kafka image
+    container_name: kafka
+    ports:
+      - "9092:9092"  # Kafka client port
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://localhost:9093  # Define both broker and controller listeners
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092  # Advertised listener
+      KAFKA_PROCESS_ROLES: broker,controller  # Both broker and controller roles
+      KAFKA_KRAFT_MODE: "true"  # Enable KRaft mode
+      KAFKA_CLUSTER_ID: UanKUPnvSKySDLLbJxhIfg  # Unique cluster ID
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER  # Controller listener name
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT  # Inter-broker listener
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # Offsets topic replication factor
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1  # Minimum ISR for transaction state logs
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1  # Replication factor for transaction state logs
+      KAFKA_LOG_DIRS: /var/lib/kafka/data  # Log directories
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093  # Example voter
+      KAFKA_CONTROLLER_QUORUM_BOOTSTRAP_SERVERS: localhost:9093  # Bootstrap server for controller quorum
+    volumes:
+      - /var/lib/kafka/data  # Mount volume for data persistence
